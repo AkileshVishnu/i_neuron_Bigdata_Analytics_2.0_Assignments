@@ -1,1 +1,538 @@
 
+Hive interview Questions
+
+--------------------------------------------------------------------------------------------------------
+1. What is the definition of Hive? What is the present version of Hive? 
+
+Hive is a data warehouse infrastructure that provides data summarization, query, and analysis capabilities on top of Hadoop. It allows users to write SQL-like queries called HiveQL, which are then translated into MapReduce or Tez jobs to process large datasets stored in Hadoop Distributed File System (HDFS) or other compatible file systems. The present version of Hive as of my knowledge cutoff in September 2021 is Hive 3.1.2.
+
+--------------------------------------------------------------------------------------------------------
+2. Is Hive suitable to be used for OLTP systems? Why?
+
+Hive is not suitable for OLTP (Online Transaction Processing) systems. Hive is designed for batch processing and is optimized for querying and analyzing large volumes of data. It is not built for real-time, low-latency operations that are typical in OLTP systems. Hive's underlying execution engine, MapReduce or Tez, introduces high latency and is not optimized for frequent small updates or real-time transactional operations.
+
+--------------------------------------------------------------------------------------------------------
+3. How is HIVE different from RDBMS? Does hive support ACID 
+transactions. If not then give the proper reason.
+
+Hive differs from traditional RDBMS (Relational Database Management Systems) in several ways. Hive is designed for handling and analyzing large-scale datasets in a distributed environment, while RDBMS is designed for structured data and supports ACID (Atomicity, Consistency, Isolation, Durability) transactions. Hive does not provide native support for ACID transactions. However, recent versions of Hive introduced the concept of ACID tables, which provide limited ACID semantics for certain use cases. ACID support in Hive is still evolving and has some limitations compared to traditional RDBMS.
+
+--------------------------------------------------------------------------------------------------------
+4. Explain the hive architecture and the different components of a Hive 
+architecture?
+Hive architecture consists of several components, including:
+
+Metastore: Stores metadata information about tables, partitions, schemas, and other objects.
+Hive Driver: Accepts user queries and coordinates the execution of queries.
+Query Compiler: Translates HiveQL queries into an execution plan.
+Execution Engine: Executes the query plan, interacts with the storage system (HDFS or other file systems), and processes data.
+Hive Server: Provides a Thrift interface for client connections and query execution.
+Hadoop Distributed File System (HDFS): The underlying distributed file system used for storing data
+
+
+--------------------------------------------------------------------------------------------------------
+5. Mention what Hive query processor does? And Mention what are the 
+components of a Hive query processor?
+
+
+The Hive query processor is responsible for parsing, optimizing, and executing HiveQL queries. Its main components include:
+
+Parser: Parses the HiveQL query and generates an abstract syntax tree (AST).
+Semantic Analyzer: Performs semantic analysis, validates the query, and resolves references to tables, columns, and functions.
+Query Optimizer: Optimizes the query plan by applying various optimizations, such as predicate pushdown, join reordering, and column pruning.
+Query Executor: Executes the optimized query plan by translating it into MapReduce or Tez jobs for distributed processing.
+
+--------------------------------------------------------------------------------------------------------
+6. What are the three different modes in which we can operate Hive?
+
+Hive can operate in three different modes:
+
+Local Mode: Hive runs in a single JVM without connecting to Hadoop. It is suitable for small datasets and for testing and debugging purposes.
+MapReduce Mode: Hive runs on a Hadoop cluster using MapReduce as the underlying execution engine. It is the default mode for Hive and is suitable for large-scale data processing.
+Tez Mode: Hive runs on a Hadoop cluster using Apache Tez as the underlying execution engine. Tez provides improved performance and resource optimization compared to MapReduce mode.
+
+--------------------------------------------------------------------------------------------------------
+7. Features and Limitations of Hive.
+
+Features of Hive:
+
+SQL-like query language (HiveQL) for querying and analyzing data.
+Schema evolution to handle evolving data structures.
+Extensibility through User-Defined Functions (UDFs), User-Defined Aggregations (UDAs), and User-Defined SerDes (Serialization/Deserialization).
+Integration with Hadoop ecosystem tools and frameworks.
+Support for partitioning, bucketing, and indexing to optimize query performance.
+Limitations of Hive:
+
+High latency due to batch processing nature.
+Lack of real-time processing capabilities.
+Limited support for ACID transactions.
+Not suitable for handling small or frequent updates.
+Complex data modeling and schema evolution
+
+--------------------------------------------------------------------------------------------------------
+8. How to create a Database in HIVE?
+
+CREATE DATABASE database_name;
+
+
+--------------------------------------------------------------------------------------------------------
+9. How to create a table in HIVE?
+
+CREATE TABLE table_name (
+  column1 data_type,
+  column2 data_type,
+  ...
+);
+
+
+--------------------------------------------------------------------------------------------------------
+10.What do you mean by describe and describe extended and describe 
+formatted with respect to database and table
+
+In the context of Hive, the DESCRIBE command is used to retrieve metadata information about databases and tables. The different variations are:
+
+DESCRIBE database_name: Provides information about the columns and properties of a database.
+DESCRIBE table_name: Provides information about the columns and properties of a table.
+DESCRIBE FORMATTED table_name: Provides detailed information about the table, including column names, data types, storage properties, and statistics.
+DESCRIBE EXTENDED table_name: Provides additional information about the table, including the table location, input/output formats, and serialization properties.
+
+
+--------------------------------------------------------------------------------------------------------
+11.How to skip header rows from a table in Hive?
+
+
+To skip header rows from a table in Hive, you can use the tblproperties clause with the skip.header.line.count property set to the number of header rows to skip. Here's an example:
+
+CREATE TABLE table_name (
+  column1 data_type,
+  column2 data_type,
+  ...
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+tblproperties ("skip.header.line.count"="1");
+
+--------------------------------------------------------------------------------------------------------
+12.What is a hive operator? What are the different types of hive operators?
+
+In Hive, an operator is a symbol or keyword used in HiveQL queries to perform specific operations on data. There are several types of Hive operators, including:
+
+Relational Operators: These include SELECT, FROM, WHERE, GROUP BY, HAVING, JOIN, UNION, ORDER BY, etc.
+Arithmetic Operators: These include +, -, *, /, %, etc.
+Logical Operators: These include AND, OR, NOT, etc.
+Comparison Operators: These include =, >, <, >=, <=, <>, etc.
+Aggregate Functions: These include SUM, AVG, COUNT, MIN, MAX, etc.
+Transformation Operators: These include MAP, REDUCE, FILTER, SORT, DISTINCT, LIMIT, etc.
+
+--------------------------------------------------------------------------------------------------------
+13.Explain about the Hive Built-In Functions
+
+
+Hive provides a wide range of built-in functions to perform various operations on data. These functions can be categorized into different types:
+
+Mathematical Functions: Examples include ABS, CEIL, FLOOR, ROUND, POWER, EXP, LOG, etc.
+String Functions: Examples include CONCAT, SUBSTR, UPPER, LOWER, TRIM, REPLACE, SPLIT, etc.
+Date/Time Functions: Examples include YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, DATE_ADD, DATE_SUB, etc.
+Conditional Functions: Examples include IF, CASE, COALESCE, NULLIF, etc.
+Aggregate Functions: Examples include SUM, AVG, COUNT, MIN, MAX, etc.
+Type Conversion Functions: Examples include CAST, TO_BOOLEAN, TO_INT, TO_STRING, etc.
+Collection Functions: Examples include SIZE, SORT_ARRAY, MAP_KEYS, MAP_VALUES, etc.
+
+--------------------------------------------------------------------------------------------------------
+14. Write hive DDL and DML commands.
+
+Hive DDL (Data Definition Language) commands are used to define and manage database objects, while DML (Data Manipulation Language) commands are used to query and manipulate data. Here are examples of DDL and DML commands in Hive:
+
+DDL Commands:
+
+CREATE DATABASE database_name;: Creates a new database.
+CREATE TABLE table_name (column1 data_type, column2 data_type, ...);: Creates a new table.
+ALTER TABLE table_name ADD COLUMN column_name data_type;: Adds a new column to an existing table.
+DROP TABLE table_name;: Deletes an existing table.
+DML Commands:
+
+SELECT * FROM table_name;: Retrieves all records from a table.
+INSERT INTO TABLE table_name VALUES (value1, value2, ...);: Inserts a new row into a table.
+UPDATE table_name SET column_name = value WHERE condition;: Updates existing records in a table.
+DELETE FROM table_name WHERE condition;: Deletes records from a table based on a condition.
+
+--------------------------------------------------------------------------------------------------------
+15.Explain about SORT BY, ORDER BY, DISTRIBUTE BY and 
+CLUSTER BY in Hive.
+
+In Hive, the following clauses are used for data sorting and distribution:
+
+SORT BY: It is used to sort the result set by one or more columns in ascending or descending order. The SORT BY clause only guarantees ordering within a reducer.
+ORDER BY: It is used to sort the result set by one or more columns in ascending or descending order. The ORDER BY clause provides a global sort, but it involves shuffling of data across reducers, which can be expensive.
+DISTRIBUTE BY: It is used to determine the partitioning of data among reducers based on one or more columns. It ensures that all records with the same DISTRIBUTE BY column values go to the same reducer but does not guarantee ordering within a reducer.
+CLUSTER BY: It is similar to DISTRIBUTE BY but also sorts the data within each reducer based on the specified column(s). It provides both partitioning and sorting.
+
+--------------------------------------------------------------------------------------------------------
+16.Difference between "Internal Table" and "External Table" and Mention 
+when to choose “Internal Table” and “External Table” in Hive?
+
+The difference between "Internal Table" and "External Table" in Hive is as follows:
+
+Internal Table: The data and metadata of an internal table are managed by Hive. When an internal table is dropped, both the table metadata and the data stored in HDFS are deleted.
+External Table: The data of an external table is stored outside of Hive's control, typically in an existing HDFS location or in an external storage system. When an external table is dropped, only the table metadata is deleted, and the data remains intact.
+
+--------------------------------------------------------------------------------------------------------
+17.Where does the data of a Hive table get stored?
+
+The data of a Hive table, whether internal or external, gets stored in the Hadoop Distributed File System (HDFS) or the external storage system defined for external tables. Hive stores the data in a structured format within directories and files in HDFS.
+
+--------------------------------------------------------------------------------------------------------
+18.Is it possible to change the default location of a managed table?
+
+Yes, it is possible to change the default location of a managed table in Hive. You can use the LOCATION clause while creating the table or the ALTER TABLE statement to change the location of an existing table
+
+--------------------------------------------------------------------------------------------------------
+19.What is a metastore in Hive? What is the default database provided by 
+Apache Hive for metastore?
+
+In Hive, the metastore is a central repository that stores metadata information about databases, tables, columns, partitions, and other related information. It serves as a catalog or a schema for Hive. The default database provided by Apache Hive for the metastore is called "default."
+
+--------------------------------------------------------------------------------------------------------
+20.Why does Hive not store metadata information in HDFS?
+
+Hive does not store metadata information in HDFS because HDFS is designed for storing large volumes of data, while metadata tends to be smaller in size and frequently accessed. Storing metadata separately in a separate storage system, such as a relational database or a distributed file system like HBase, allows for more efficient access and management of metadata.
+
+--------------------------------------------------------------------------------------------------------
+21.What is a partition in Hive? And Why do we perform partitioning in 
+Hive?
+
+In Hive, a partition is a way of dividing a table into smaller, more manageable parts based on the values of one or more columns. Partitioning is performed based on specific partition keys, and each partition is stored as a separate directory in HDFS. Partitioning allows for faster data retrieval and improved query performance by eliminating the need to scan the entire table
+
+--------------------------------------------------------------------------------------------------------
+22.What is the difference between dynamic partitioning and static 
+partitioning?
+
+The difference between dynamic partitioning and static partitioning in Hive is as follows:
+
+Dynamic Partitioning: In dynamic partitioning, the partition values are determined at runtime, and Hive automatically creates the necessary partitions and directories based on the values present in the data being inserted.
+Static Partitioning: In static partitioning, the partition values are specified explicitly in the INSERT INTO statement, and the partitions and directories must be created manually before inserting data
+
+
+--------------------------------------------------------------------------------------------------------
+23.How do you check if a particular partition exists?
+
+To check if a particular partition exists in Hive, you can use the SHOW PARTITIONS statement with a LIKE clause to match the partition values. Here's an example:
+
+SHOW PARTITIONS table_name LIKE 'partition_column=value';
+
+
+--------------------------------------------------------------------------------------------------------
+24.How can you stop a partition form being queried?
+
+To stop a partition from being queried in Hive, you can use the ALTER TABLE statement with the DISABLE option. Here's an example:
+
+ALTER TABLE table_name PARTITION (partition_column=value) DISABLE;
+
+
+--------------------------------------------------------------------------------------------------------
+25.Why do we need buckets? How Hive distributes the rows into buckets?
+
+Buckets in Hive are a way of horizontally partitioning data within a table based on the hash value of a specified column. Buckets help in organizing and distributing data evenly across multiple files or reducers, enabling efficient data retrieval and joins. Hive distributes the rows into buckets using a hash function applied to the specified column, and each bucket is stored as a separate file in HDFS.
+
+--------------------------------------------------------------------------------------------------------
+
+26.In Hive, how can you enable buckets?
+
+
+
+--------------------------------------------------------------------------------------------------------
+27.How does bucketing help in the faster execution of queries?
+
+
+
+--------------------------------------------------------------------------------------------------------
+28.How to optimise Hive Performance? Explain in very detail.
+
+
+
+--------------------------------------------------------------------------------------------------------
+29. What is the use of Hcatalog?
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+30. Explain about the different types of join in Hive.
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+31.Is it possible to create a Cartesian join between 2 tables, using Hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+32.Explain the SMB Join in Hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+33.What is the difference between order by and sort by which one we should 
+use?
+
+
+
+--------------------------------------------------------------------------------------------------------
+34.What is the usefulness of the DISTRIBUTED BY clause in Hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+35.How does data transfer happen from HDFS to Hive? 
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+36.Wherever (Different Directory) I run the hive query, it creates a new 
+metastore_db, please explain the reason for it?
+
+
+--------------------------------------------------------------------------------------------------------
+37.What will happen in case you have not issued the command: ‘SET 
+hive.enforce.bucketing=true;’ before bucketing a table in Hive?
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+38.Can a table be renamed in Hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+39.Write a query to insert a new column(new_col INT) into a hive table at a 
+position before an existing column (x_col)
+
+
+
+--------------------------------------------------------------------------------------------------------
+40.What is serde operation in HIVE?
+
+
+
+--------------------------------------------------------------------------------------------------------
+41.Explain how Hive Deserializes and serialises the data?
+
+
+
+--------------------------------------------------------------------------------------------------------
+42.Write the name of the built-in serde in hive.
+
+
+
+--------------------------------------------------------------------------------------------------------
+43.What is the need of custom Serde?
+
+
+
+--------------------------------------------------------------------------------------------------------
+44.Can you write the name of a complex data type(collection data types) in 
+Hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+45.Can hive queries be executed from script files? How?
+
+
+
+--------------------------------------------------------------------------------------------------------
+46.What are the default record and field delimiter used for hive text files?
+
+
+
+--------------------------------------------------------------------------------------------------------
+47.How do you list all databases in Hive whose name starts with s?
+
+
+
+--------------------------------------------------------------------------------------------------------
+48.What is the difference between LIKE and RLIKE operators in Hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+49.How to change the column data type in Hive?
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+50.How will you convert the string ’51.2’ to a float value in the particular 
+column?
+
+
+
+--------------------------------------------------------------------------------------------------------
+51.What will be the result when you cast ‘abc’ (string) as INT?
+
+
+
+--------------------------------------------------------------------------------------------------------
+52.What does the following query do?
+a. INSERT OVERWRITE TABLE employees
+b. PARTITION (country, state)
+c. SELECT ..., se.cnty, se.st
+d. FROM staged_employees se;
+
+
+
+--------------------------------------------------------------------------------------------------------
+53.Write a query where you can overwrite data in a new table from the 
+existing table.
+
+
+
+--------------------------------------------------------------------------------------------------------
+54.What is the maximum size of a string data type supported by Hive? 
+Explain how Hive supports binary formats.
+
+
+--------------------------------------------------------------------------------------------------------
+55. What File Formats and Applications Does Hive Support?
+
+
+
+--------------------------------------------------------------------------------------------------------
+56.How do ORC format tables help Hive to enhance its performance?
+
+
+
+--------------------------------------------------------------------------------------------------------
+57.How can Hive avoid mapreduce while processing the query?
+
+
+
+--------------------------------------------------------------------------------------------------------
+58.What is view and indexing in hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+59.Can the name of a view be the same as the name of a hive table?
+
+
+
+--------------------------------------------------------------------------------------------------------
+60.What types of costs are associated in creating indexes on hive tables?
+
+
+
+--------------------------------------------------------------------------------------------------------
+61.Give the command to see the indexes on a table.
+
+
+
+--------------------------------------------------------------------------------------------------------
+62. Explain the process to access subdirectories recursively in Hive queries.
+
+
+--------------------------------------------------------------------------------------------------------
+63.If you run a select * query in Hive, why doesn't it run MapReduce?
+
+
+
+--------------------------------------------------------------------------------------------------------
+64.What are the uses of Hive Explode?
+
+
+
+--------------------------------------------------------------------------------------------------------
+65. What is the available mechanism for connecting applications when we 
+run Hive as a server?
+
+
+
+--------------------------------------------------------------------------------------------------------
+66.Can the default location of a managed table be changed in Hive?
+
+
+--------------------------------------------------------------------------------------------------------
+67.What is the Hive ObjectInspector function?
+
+
+--------------------------------------------------------------------------------------------------------
+68.What is UDF in Hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+69.Write a query to extract data from hdfs to hive.
+
+
+
+--------------------------------------------------------------------------------------------------------
+70.What is TextInputFormat and SequenceFileInputFormat in hive.
+
+
+
+--------------------------------------------------------------------------------------------------------
+71.How can you prevent a large job from running for a long time in a hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+72.When do we use explode in Hive?
+
+
+--------------------------------------------------------------------------------------------------------
+73.Can Hive process any type of data formats? Why? Explain in very detail
+
+
+--------------------------------------------------------------------------------------------------------
+74.Whenever we run a Hive query, a new metastore_db is created. Why?
+
+
+
+--------------------------------------------------------------------------------------------------------
+75.Can we change the data type of a column in a hive table? Write a 
+complete query.
+
+
+
+--------------------------------------------------------------------------------------------------------
+76.While loading data into a hive table using the LOAD DATA clause, how 
+do you specify it is a hdfs file and not a local file ?
+
+
+
+--------------------------------------------------------------------------------------------------------
+77.What is the precedence order in Hive configuration?
+
+
+
+--------------------------------------------------------------------------------------------------------
+78.Which interface is used for accessing the Hive metastore?
+
+
+
+--------------------------------------------------------------------------------------------------------
+79.Is it possible to compress json in the Hive external table ?
+
+
+--------------------------------------------------------------------------------------------------------
+80.What is the difference between local and remote metastores?
+
+
+
+--------------------------------------------------------------------------------------------------------
+81.What is the purpose of archiving tables in Hive?
+
+
+--------------------------------------------------------------------------------------------------------
+82.What is DBPROPERTY in Hive?
+
+
+
+--------------------------------------------------------------------------------------------------------
+83.Differentiate between local mode and MapReduce mode in Hive
+
+
+--------------------------------------------------------------------------------------------------------   
