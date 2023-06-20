@@ -1,1 +1,129 @@
 
+Q1. How do you load a CSV file into a Pandas DataFrame?
+
+import pandas as pd
+
+df = pd.read_csv('filename.csv')
+
+
+Q2. How do you check the data type of a column in a Pandas DataFrame?
+
+print(df['column_name'].dtype)
+
+
+Q3. How do you select rows from a Pandas DataFrame based on a condition?
+
+new_df = df[df['column_name'] > 10]
+
+
+Q4. How do you rename columns in a Pandas DataFrame?
+
+df = df.rename(columns={'old_column_name': 'new_column_name'})
+
+
+Q5. How do you drop columns in a Pandas DataFrame?
+
+df = df.drop(columns=['column_name1', 'column_name2'])
+
+
+Q6. How do you find the unique values in a column of a Pandas DataFrame?
+
+df = df.drop(columns=['column_name1', 'column_name2'])
+
+
+Q7. How do you find the number of missing values in each column of a Pandas DataFrame?
+
+missing_values_count = df.isnull().sum()
+
+
+Q8. How do you fill missing values in a Pandas DataFrame with a specific value?
+
+df = df.fillna(value)
+
+
+Q9. How do you concatenate two Pandas DataFrames?
+
+new_df = pd.concat([df1, df2])
+
+
+Q10. How do you merge two Pandas DataFrames on a specific column?
+
+merged_df = pd.merge(df1, df2, on='column_name')
+
+
+Q11. How do you group data in a Pandas DataFrame by a specific column and apply an aggregation function?
+
+grouped_df = df.groupby('column_name').agg({'column_to_aggregate': 'mean'})
+
+
+Q12. How do you pivot a Pandas DataFrame?
+
+pivoted_df = df.pivot(index='index_column', columns='columns_column', values='values_column')
+
+
+Q13. How do you change the data type of a column in a Pandas DataFrame?
+
+df['column_name'] = df['column_name'].astype(new_data_type)
+
+
+Q14. How do you sort a Pandas DataFrame by a specific column?
+
+sorted_df = df.sort_values(by='column_name')
+
+
+Q15. How do you create a copy of a Pandas DataFrame?
+
+df_copy = df.copy()
+
+
+Q16. How do you filter rows of a Pandas DataFrame by multiple conditions?
+
+filtered_df = df[(df['column1'] > 10) & (df['column2'] == 'value')]
+
+
+Q17. How do you calculate the mean of a column in a Pandas DataFrame?
+
+column_mean = df['column_name'].mean()
+
+
+Q18. How do you calculate the standard deviation of a column in a Pandas DataFrame?
+
+column_std = df['column_name'].std()
+
+
+Q19. How do you calculate the correlation between two columns in a Pandas DataFrame?
+
+correlation = df['column1'].corr(df['column2'])
+
+
+Q20. How do you select specific columns in a DataFrame using their labels?
+
+selected_columns = df[['column1', 'column2', 'column3']]
+
+
+Q21. How do you select specific rows in a DataFrame using their indexes?
+
+selected_rows = df.loc[[1, 3, 5]]
+
+
+Q22. How do you sort a DataFrame by a specific column?
+
+sorted_df = df.sort_values(by='column_name')
+
+
+Q23. How do you create a new column in a DataFrame based on the values of another column?
+
+df['new_column'] = df['existing_column'] * 2
+
+
+Q24. How do you remove duplicates from a DataFrame?
+
+df = df.drop_duplicates()
+
+
+Q25. What is the difference between .loc and .iloc in Pandas?
+
+
+.loc is used for label-based indexing. It allows you to access data in a DataFrame using labels or conditions. For example, df.loc[2, 'column_name'] selects the value at row 2 and column 'column_name'. You can also use boolean indexing with .loc to select rows based on conditions.
+
+.iloc is used for integer-based indexing. It allows you to access data in a DataFrame using integer positions. For example, df.iloc[2, 3] selects the value at the third row and fourth column (0-based index). You can also use integer slicing with .iloc to select multiple rows or columns
